@@ -1,0 +1,38 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+<form action="" method="post">
+    <input type="text" class="form-control" asp-for="@Model.SearchTerm" />
+    <button class="btn btn-outline-primary" type="button" id="clearButton">Clear</button>
+    <button class="btn btn-outline-primary" type="submit">Submit</button>
+          
+
+    <table>
+        <thead>
+            <th>Text</th>
+        </thead>
+        <tbody>
+            @foreach (string txt in Model.TableItems)
+            {
+                <tr>
+                    <td>@txt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        $('#clearButton').on('click', function () {
+            $('input[type="text"]').val('');
+            $('form').submit();
+        });
+    </script>
+}

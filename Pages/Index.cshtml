@@ -1,0 +1,62 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <input id="lang" type="hidden" value="@Model.Language" />
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <button type="button" class="btn btn-success mb-3" onclick="changeLanguage()">Change Language</button>
+@*     @for (int i = 0; i < 10; i++)
+    {
+        <div>
+            @(i + 1)
+        </div>
+    } *@
+    <div class="eng">
+        Hello world
+    </div>
+    <div class="jp">
+        こんにちは世界
+    </div>
+    <hr />
+    <div class="eng">
+        These are short, famous texts in English from classic sources like the Bible or Shakespeare. Some texts have word definitions and explanations to help you. Some of these texts are written in an old style of English. Try to understand them, because the English that we speak today is based on what our great, great, great, great grandparents spoke before! Of course, not all these texts were originally written in English. The Bible, for example, is a translation. But they are all well known in English today, and many of them express beautiful thoughts.
+    </div>
+    <div class="jp">
+        これらは、聖書やシェークスピアなどの古典的な資料からの、英語で書かれた短い有名なテキストです。テキストの中には、理解を助けるために単語の定義や説明が付いているものもあります。これらのテキストの中には、古いスタイルの英語で書かれたものもあります。私たちが今日話している英語は、私たちの高祖父母が以前に話していたものに基づいているため、理解するようにしてください。もちろん、これらのテキストのすべてがもともと英語で書かれたわけではありません。たとえば、聖書は翻訳です。しかし、それらはすべて今日英語でよく知られており、その多くは美しい考えを表現しています。
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", (event) => {
+            setLanguage();
+        });
+
+        function changeLanguage() {
+            let lang = document.querySelector('#lang');
+            if (lang.value == 'english') {
+                lang.value = 'japanese';
+            } else {
+                lang.value = 'english';
+            }
+            setLanguage();
+        }
+
+        function setLanguage() {
+            let currentlang = document.querySelector('#lang').value;
+            let engs = document.querySelectorAll('.eng');
+            let jps = document.querySelectorAll('.jp');
+            if (lang.value == 'english') {
+                engs.forEach(elem => elem.classList.remove('d-none'));
+                jps.forEach(elem => elem.classList.add('d-none'));
+            } else {
+                engs.forEach(elem => elem.classList.add('d-none'));
+                jps.forEach(elem => elem.classList.remove('d-none'));
+            }
+        }
+    </script>
+}

@@ -1,0 +1,15 @@
+﻿@page
+@model TestApp.Pages.ComponentTestModel
+@{
+    ViewData["Title"] = "Component Test";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Outside the component</p>
+<input-test route="/ComponentTest?handler=SendDateTime"></input-test>
+
+@section scripts 
+{
+    <script type="module" src="~/js/input-test.js"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+}
