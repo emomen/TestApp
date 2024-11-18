@@ -32,10 +32,19 @@ export class InputTest extends LitElement {
 
     static properties = {
         route: { type: String },
+        shouldShow: {state: true},
+        num: {state: true},
+        values: {state: true},
+        sum: {state: true},
     };
 
     constructor() {
         super();
+        this.shouldShow = true;
+        this.num = 1;
+        this.val1 = 19382;
+        this.val2 = 23843;
+        this.sum = this.val1 + this.val2;
     }
 
     createRenderRoot() {
@@ -57,6 +66,22 @@ export class InputTest extends LitElement {
         $('#testDiv').css('background-color', this.generateRandomColor());
     }
 
+    toggleShow() {
+        this.shouldShow = !this.shouldShow;
+    }
+
+    setVisibility() {
+        return this.shouldShow ? 'visible' : 'invisible';
+    }
+
+    removeFormatting(el) {
+        el.value = el.value.replace(',', '');
+    }
+    addFormatting(el, val) {
+        val = parseInt(el.value);
+        el.value = val.toLocaleString();
+    }
+
     render() {
         return html`
             <div>
@@ -69,7 +94,7 @@ export class InputTest extends LitElement {
                 <hr />
                 
                 <!-- JQuery Test -->
-                <button @click=${e => this.changeColor()}>New Color</button>
+                <button @click=${this.changeColor}>New Color</button>
                 <div id="testDiv" style="width: 120px; height: 20px;"></div>
                 
                 <hr />
@@ -82,8 +107,50 @@ export class InputTest extends LitElement {
                 <!-- HTMX Test -->
                 <p id="replaceMe">Before Request</p>
                 <button hx-get="${this.route}" hx-trigger="click" hx-target="#replaceMe" hx-swap="innerHTML">Send Request</button>
+                
+                <hr />
+                
+                <!-- Alpine Replication Test -->
+                <p class="${this.setVisibility()}">This text is not hidden</p>
+                <p>Status: ${this.setVisibility()}</p>
+                <button @click=${this.toggleShow}>Toggle</button>
+                
+                <hr />
+                
+                <!-- Number Display Test -->
+                <p>${this.num.toLocaleString()}</p>
+                <div>
+                    <button @click=${e => this.num *= 2}>Times Two</button>
+                </div>
+                <div class="mt-2">
+                    <button @click=${e => this.num = 1}>Reset</button>
+                </div>
+                
+                <hr />
+
+                <!-- Alpine Replication Test -->
+                <div class="mt-3">
+                    <p>${this.val1.toLocaleString()}</p>
+                    <input type="text" value="${this.val1.toLocaleString()}" 
+                        @focusin=${e => this.removeFormatting(e.srcElement)} 
+                        @focusout=${e => this.addFormatting(e.srcElement, this.val1)}
+                    />
+                </div>
+                <div class="mt-3">
+                    <p>${this.val2.toLocaleString()}</p>
+                    <input type="text" value="${this.val2.toLocaleString()}" 
+                        @focusin=${e => this.removeFormatting(e.srcElement)} 
+                        @focusout=${e => this.addFormatting(e.srcElement, this.val2)}
+                    />
+                </div>
+
+                <div class="mt-3">
+                    <p>${this.sum.toLocaleString()}</p>
+                    <input type="text" value="${this.sum.toLocaleString()}" />
+                </div>
             </div>
             `;
     }
 }
+
 customElements.define('input-test', InputTest);
